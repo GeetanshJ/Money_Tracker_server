@@ -4,7 +4,7 @@ import cors from "cors";
 import { sequelize } from "./models/db.js";
 import { model_list } from "./models/model_list.js"
 import AuthRoutes from "./routes/Auth/routes.js";
-
+import cookieParser from "cookie-parser";
 dotenv.config({ path: "./utils/.env" });
 sequelize.sync({ alter: false, force: false });
 
@@ -16,7 +16,7 @@ app.use(cors({
 }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
+app.use(cookieParser());
 
 app.get("/", (req, res) => {
     res.send("Welcome to money mentor");
@@ -29,4 +29,4 @@ app.use((req, res) => {
 }); 
 
 
-app.listen(process.env.PORT)
+app.listen(process.env.PORT);

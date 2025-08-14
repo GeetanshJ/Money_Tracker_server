@@ -76,7 +76,6 @@ router.post("/login_submit", (req, res) => {
             res.cookie("token", token, {
                 httpOnly: true,
                 secure: false, 
-                sameSite: "strict",
                 maxAge: 60 * 60 * 1000 
             });
 
@@ -89,15 +88,15 @@ router.post("/login_submit", (req, res) => {
 })
 
 router.post("/check", (req, res) => {
-    console.log(req?.cookies?.token);
     
-    // const token = req.cookies.token;
-    // if (!token) return res.json({ authenticated: false });
+    const token = req?.cookies?.token;
+    if (!token) return res.json({ authenticated: false });
 
-    // jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-    //     if (err) return res.json({ authenticated: false });
-    //     res.json({ authenticated: true, user: decoded });
-    // });
+    jwt.verify(token, process.env.SECRETKEY, (err, decoded) => {
+        
+        if (err) return res.json({ authenticated: false });
+        res.json({ authenticated: true, user: decoded });
+    });
 });
 
 export default router;
